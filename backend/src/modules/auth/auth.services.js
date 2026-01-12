@@ -1,5 +1,6 @@
 const User = require('./auth.model');
 
+// register user service
 const createUser = async (data) => {
     const {email}= data;
     
@@ -12,6 +13,24 @@ const createUser = async (data) => {
     return {user};
 }
 
+// login user service
+const loginUser = async (data) => {
+    const {email, password} = data;
+    
+    const user = await User.findOne({email});
+    if (!user) {
+        throw new Error('User does not exist');
+    }       
+    
+    const isPasswordMatch = await user.matchPassword(password);
+    if (!isPasswordMatch) {
+        throw new Error('Invalid credentials');
+    } 
+
+    return {user};
+}
+
 module.exports = {
-    createUser
+    createUser,
+    loginUser
 }

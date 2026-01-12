@@ -29,8 +29,38 @@ const getSinglePublicPost = async (id) => {
   return post;
 };
 
+// get posts by logged-in user
+const getPostsByLoggedInUser = async (userId) => {
+  const posts = await Post.find({
+    userId: userId
+  });
+  return posts;
+};
+
+// update post 
+const updatePost = async (postId, userId, updateData) => {
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    throw new Error('Post not found');
+  }
+
+  if (post.userId.toString() !== userId.toString()) {
+    throw new Error('You are not allowed to update this post');
+  }
+  delete updateData.status;
+  delete updateData.publishedAt;
+
+  Object.assign(post, updateData);
+
+  await post.save();
+  return post;
+};
+
 module.exports = {
   createPost,
+  updatePost,
   getAllPublicPosts,
   getSinglePublicPost,
+  getPostsByLoggedInUser
 };

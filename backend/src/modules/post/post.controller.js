@@ -58,9 +58,57 @@ const getSinglePublicPostByIdController = async (req, res) => {
   }
 };
 
+// get posts by logged-in user controller
+const getMyPostsController = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const posts = await postService.getPostsByLoggedInUser(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Your posts fetched successfully',
+      data: posts
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+const updatePostController = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.id;
+
+    const updatedPost = await postService.updatePost(
+      postId,
+      userId,
+      req.body
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Post updated successfully',
+      data: updatedPost
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 
 module.exports = {
   createPostController,
+  updatePostController,
   getAllPublicPostsController,
-  getSinglePublicPostByIdController
+  getSinglePublicPostByIdController,
+  getMyPostsController
 };

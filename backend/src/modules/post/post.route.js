@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../../middlewares/authMiddleware');
-const { createPostController, getAllPublicPostsController, getSinglePublicPostByIdController } = require('../post/post.controller');
+const { createPostController, getAllPublicPostsController, getSinglePublicPostByIdController, getMyPostsController, updatePostController } = require('../post/post.controller');
 
-router.post('/', authMiddleware, createPostController);
+// publish post
 router.get('/', getAllPublicPostsController);
 router.get('/id/:id', getSinglePublicPostByIdController);
+
+// logged-in user
+// create post
+router.post('/', authMiddleware, createPostController);
+// get posts 
+router.get('/my-posts', authMiddleware, getMyPostsController);
+// update post
+router.patch('/:id', authMiddleware, updatePostController);
+
 
 module.exports = router;

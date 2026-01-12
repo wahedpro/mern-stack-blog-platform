@@ -73,10 +73,32 @@ const deletePost = async (postId, userId) => {
   return true;
 };
 
+// publish post by admin
+const publishPostByAdmin = async (postId) => {
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    throw new Error('Post not found');
+  }
+
+  if (post.status === 'PUBLISHED') {
+    throw new Error('Post already published');
+  }
+
+  post.status = 'PUBLISHED';
+  post.publishedAt = new Date();
+
+  await post.save();
+
+  return post;
+};
+
+
 module.exports = {
   createPost,
   updatePost,
   deletePost,
+  publishPostByAdmin,
   getAllPublicPosts,
   getSinglePublicPost,
   getPostsByLoggedInUser

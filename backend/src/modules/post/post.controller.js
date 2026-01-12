@@ -125,10 +125,33 @@ const deletePostController = async (req, res) => {
   }
 };
 
+// publish post by admin
+const publishPostController = async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    const post = await postService.publishPostByAdmin(postId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Post published successfully',
+      data: post
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+
 module.exports = {
   createPostController,
   updatePostController,
   deletePostController,
+  publishPostController,
   getAllPublicPostsController,
   getSinglePublicPostByIdController,
   getMyPostsController

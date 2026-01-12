@@ -79,6 +79,7 @@ const getMyPostsController = async (req, res) => {
   }
 };
 
+// update post controller
 const updatePostController = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -104,10 +105,30 @@ const updatePostController = async (req, res) => {
   }
 };
 
+const deletePostController = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.id;
+
+    await postService.deletePost(postId, userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Post deleted successfully'
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
 
 module.exports = {
   createPostController,
   updatePostController,
+  deletePostController,
   getAllPublicPostsController,
   getSinglePublicPostByIdController,
   getMyPostsController

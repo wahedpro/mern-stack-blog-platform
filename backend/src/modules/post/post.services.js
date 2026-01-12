@@ -57,9 +57,26 @@ const updatePost = async (postId, userId, updateData) => {
   return post;
 };
 
+// delete post
+const deletePost = async (postId, userId) => {
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    throw new Error('Post not found');
+  }
+
+  if (post.userId.toString() !== userId.toString()) {
+    throw new Error('You are not allowed to delete this post');
+  }
+
+  await post.deleteOne();
+  return true;
+};
+
 module.exports = {
   createPost,
   updatePost,
+  deletePost,
   getAllPublicPosts,
   getSinglePublicPost,
   getPostsByLoggedInUser

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../../middlewares/authMiddleware');
-const { createPostController, getAllPublicPostsController, getSinglePublicPostByIdController, getMyPostsController, updatePostController } = require('../post/post.controller');
+const { createPostController, getAllPublicPostsController, getSinglePublicPostByIdController, getMyPostsController, updatePostController, deletePostController } = require('../post/post.controller');
 
 // publish post
 router.get('/', getAllPublicPostsController);
@@ -15,6 +15,7 @@ router.post('/', authMiddleware, createPostController);
 router.get('/my-posts', authMiddleware, getMyPostsController);
 // update post
 router.patch('/:id', authMiddleware, updatePostController);
-
+// delete post
+router.delete('/:id', authMiddleware, deletePostController);
 
 module.exports = router;

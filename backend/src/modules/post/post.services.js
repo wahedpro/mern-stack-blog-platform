@@ -23,7 +23,14 @@ const getAllPublicPosts = async () => {
   return posts;
 };
 
+// get single published post by id
+const getSinglePublicPost = async (id) => {
+  const post = await Post.findOne({_id: id});
+  return post;
+};
+
 module.exports = {
   createPost,
   getAllPublicPosts,
+  getSinglePublicPost,
 };

@@ -37,7 +37,30 @@ const getAllPublicPostsController = async (req, res) => {
   }
 };
 
+// get single published post controller
+const getSinglePublicPostByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await postService.getSinglePublicPost(id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Post fetched successfully',
+      data: post
+    });
+
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+
 module.exports = {
   createPostController,
   getAllPublicPostsController,
+  getSinglePublicPostByIdController
 };

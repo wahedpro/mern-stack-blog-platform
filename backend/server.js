@@ -1,5 +1,6 @@
 const express = require('express')
 const userRoutes = require('./src/modules/auth/auth.routes')
+const postRoutes = require('./src/modules/post/post.route');
 const app = express()
 const port = 4000
 
@@ -10,7 +11,11 @@ app.use(express.json())
 
 connectDB();
 
+// user routes
 app.use('/api/users', userRoutes)
+
+// post routes
+app.use('/api/posts', postRoutes);
 
 
 app.get('/', (req, res) => {

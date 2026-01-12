@@ -1,3 +1,4 @@
+const generateToken = require('../../utils/generateToken');
 const User = require('./auth.model');
 
 // register user service
@@ -10,7 +11,11 @@ const createUser = async (data) => {
     }
 
     const user = await User.create(data);
-    return {user};
+
+    //  token generate
+    const token = generateToken(user._id);
+
+    return {user, token};
 }
 
 // login user service
@@ -25,9 +30,11 @@ const loginUser = async (data) => {
     const isPasswordMatch = await user.matchPassword(password);
     if (!isPasswordMatch) {
         throw new Error('Invalid credentials');
-    } 
+    }
 
-    return {user};
+    const token = generateToken(user._id);
+
+    return {user, token};
 }
 
 module.exports = {

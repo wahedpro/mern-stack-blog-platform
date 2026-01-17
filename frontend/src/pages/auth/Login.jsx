@@ -13,6 +13,7 @@ const Login = () => {
     onSuccess: (data) => {
       const token = data.data.token;
       if(!token) return;
+      login(data?.user, data?.token);
       console.log(data)
     }
   });

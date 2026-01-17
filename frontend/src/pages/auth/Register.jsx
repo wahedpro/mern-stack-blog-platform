@@ -1,0 +1,87 @@
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import apiRequestHandler from "../../services/ApiRequestHandler";
+
+const Register = () => {
+  const {register, handleSubmit} = useForm();
+  
+  const registerMutation = useMutation({
+    mutationFn: async (userData) => {
+      const response = await apiRequestHandler("users/register", "POST", userData);
+      return response;
+    },
+    onSuccess: (data) => {
+      console.log("Registration successful:", data);
+    }
+  });
+
+  const onSubmit = data => {
+    const userData = {
+      name: data.name,
+      email: data.email,
+      password: data.password
+    };
+    registerMutation.mutate(userData);
+  };
+
+  return (
+    <div className="flex items-center justify-center w-full min-h-screen px-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col max-w-96">
+        <h2 className="text-4xl font-medium text-gray-900">Sign up</h2>
+
+        <p className="mt-4 text-base text-gray-500/90">
+          Please enter email and password to access.
+        </p>
+
+        <div className="mt-10">
+          <label className="font-medium">Name</label>
+          <input
+            placeholder="Please enter your name"
+            className="mt-2 rounded-md ring ring-gray-200 focus:ring-2 focus:ring-indigo-600 outline-none px-3 py-3 w-full"
+            type="text"
+            id="name"
+            {...register("name", { required: "Name is required" })}
+          />
+        </div>
+
+        <div className="mt-6">
+          <label className="font-medium">Email</label>
+          <input
+            placeholder="Please enter your email"
+            className="mt-2 rounded-md ring ring-gray-200 focus:ring-2 focus:ring-indigo-600 outline-none px-3 py-3 w-full"
+            type="email"
+            id="email"
+            {...register("email", { required: "Email is required" })}
+          />
+        </div>
+
+        <div className="mt-6">
+          <label className="font-medium">Password</label>
+          <input
+            placeholder="Please enter your password"
+            className="mt-2 rounded-md ring ring-gray-200 focus:ring-2 focus:ring-indigo-600 outline-none px-3 py-3 w-full"
+            type="password"
+            id="password"
+            {...register("password", { required: "Password is required" })}
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-8 py-3 w-full cursor-pointer rounded-md bg-indigo-600 text-white transition hover:bg-indigo-700"
+        >
+          Login
+        </button>
+        <p className="text-center py-8">
+          Don't have an account?{" "}
+          <Link to="/login" className="text-indigo-600 hover:underline">
+            Login
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default Register;

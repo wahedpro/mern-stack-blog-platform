@@ -1,34 +1,42 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apiRequestHandler from "../../services/ApiRequestHandler";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
-  const {register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const loginMutation = useMutation({
     mutationFn: async (data) => {
-      const response = await apiRequestHandler("users/login", "POST", data);
-      return response;
+      return await apiRequestHandler("users/login", "POST", data);
     },
-    onSuccess: (data) => {
-      const token = data.data.token;
-      if(!token) return;
-      login(data?.user, data?.token);
-      console.log(data)
-    }
+    onSuccess: (response) => {
+      const { user, token } = response.data;
+      login(user, token);
+      navigate("/");
+    },
+    onError: (error) => {
+      console.error(error);
+      alert("Invalid email or password");
+    },
   });
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const loginData = {
       email: data.email,
-      password: data.password
+      password: data.password,
     };
     loginMutation.mutate(loginData);
-  }
+  };
   return (
     <main className="flex items-center justify-center w-full min-h-screen px-4">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col max-w-96">
-
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col max-w-96"
+      >
         <h2 className="text-4xl font-medium text-gray-900">Sign in</h2>
 
         <p className="mt-4 text-base text-gray-500/90">
@@ -61,13 +69,16 @@ const Login = () => {
 
         <button
           type="submit"
+          disabled={loginMutation.isPending}
           className="mt-8 py-3 w-full cursor-pointer rounded-md bg-indigo-600 text-white transition hover:bg-indigo-700"
         >
-          Login
+          {loginMutation.isPending ? "Logging in..." : "Login"}
         </button>
         <p className="text-center py-8">
           Don't have an account?{" "}
-          <Link to="/register" className="text-indigo-600 hover:underline">Register</Link>
+          <Link to="/register" className="text-indigo-600 hover:underline">
+            Register
+          </Link>
         </p>
       </form>
     </main>

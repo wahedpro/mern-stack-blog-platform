@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -29,17 +29,13 @@ const AuthProvider = ({ children }) => {
   };
 
   // Logout function
-  const logout = async () => {
-    setLoading(true);
-    try {
-      localStorage.removeItem("user");
+  const logout = () => {
+    localStorage.removeItem("user");
       localStorage.removeItem("token");
       setUser(null);
       setUserToken(null);
-    } finally {
-      setLoading(false);
-    }
   };
+  
   return (
     <AuthContext.Provider value={{ user, userToken, loading, login, logout }}>
       {children}

@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    slug: {
+    slug : {
       type: String,
       required: true,
       unique: true

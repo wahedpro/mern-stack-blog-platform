@@ -6,6 +6,8 @@ const createPostController = async (req, res) => {
     const userId = req.user.id;
     const post = await postService.createPost(req.body, userId);
 
+    console.log('Created Post:', post);
+
     res.status(201).json({
       success: true,
       message: "Post created successfully",

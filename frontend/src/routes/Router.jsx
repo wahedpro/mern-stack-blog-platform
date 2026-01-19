@@ -6,6 +6,7 @@ import UserHome from "../pages/dashboard/user/UserHome";
 import { Route, Routes } from "react-router-dom";
 import Profile from "../pages/dashboard/user/Profile";
 import AddBlog from "../pages/dashboard/user/Blog/AddBlog";
+import MyBlog from "../pages/dashboard/user/MyBlog";
 
 const router = () => {
   return(
@@ -13,6 +14,7 @@ const router = () => {
       <Route path="login" element={<Login/>} />
       <Route path="register" element={<Register/>} />
       <Route path="/" element={<UserHome/>}>
+        <Route path="/" element={<MyBlog/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/addBlog" element={<AddBlog/>} />
       </Route>

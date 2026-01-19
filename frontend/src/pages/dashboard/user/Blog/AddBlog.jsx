@@ -1,11 +1,52 @@
 import { useForm } from "react-hook-form";
 
 const AddBlog = () => {
-    const {register, handleSubmit} = useForm()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    // convert comma-separated tags to array
+    const payload = {
+      ...data,
+      tags: data.tags
+        ? data.tags.split(",").map((tag) => tag.trim())
+        : [],
+    };
+
+    try {
+      const res = await fetch("http://localhost:4000/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create blog");
+      }
+
+      const result = await res.json();
+      console.log("Blog created:", result);
+
+      reset(); // clear form
+      alert("Blog published successfully 🎉");
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong ❌");
+    }
+  };
+
   return (
     <div className="flex justify-center mt-10">
-      <form className="bg-white text-gray-600 w-full max-w-lg p-6 rounded-lg border border-gray-300 space-y-4">
-
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white text-gray-600 w-full max-w-lg p-6 rounded-lg border border-gray-300 space-y-4"
+      >
         {/* Title */}
         <div>
           <label className="font-medium">Blog Title</label>
@@ -13,9 +54,11 @@ const AddBlog = () => {
             type="text"
             placeholder="Enter blog title"
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
-            id="title"
-            {...register("title", { required: "The title is required." })}
+            {...register("title", { required: "Title is required" })}
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm">{errors.title.message}</p>
+          )}
         </div>
 
         {/* Slug */}
@@ -25,12 +68,14 @@ const AddBlog = () => {
             type="text"
             placeholder="example-blog-title"
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
-            id="slug"
-            {...register("slug", { required: "The slug is required." })}
+            {...register("slug", { required: "Slug is required" })}
           />
           <p className="text-xs text-gray-400 mt-1">
             Must be unique, lowercase, hyphen-separated
           </p>
+          {errors.slug && (
+            <p className="text-red-500 text-sm">{errors.slug.message}</p>
+          )}
         </div>
 
         {/* Thumbnail */}
@@ -40,9 +85,13 @@ const AddBlog = () => {
             type="text"
             placeholder="https://image-url.com/thumb.jpg"
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
-            id="thumbnail"
-            {...register("thumbnail", { required: "The thumbnail URL is required." })}
+            {...register("thumbnail", { required: "Thumbnail is required" })}
           />
+          {errors.thumbnail && (
+            <p className="text-red-500 text-sm">
+              {errors.thumbnail.message}
+            </p>
+          )}
         </div>
 
         {/* Content */}
@@ -52,9 +101,11 @@ const AddBlog = () => {
             rows="5"
             placeholder="Write blog content..."
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none resize-none"
-            id="content"
-            {...register("content", { required: "The content is required." })}
+            {...register("content", { required: "Content is required" })}
           ></textarea>
+          {errors.content && (
+            <p className="text-red-500 text-sm">{errors.content.message}</p>
+          )}
         </div>
 
         {/* Tags */}
@@ -64,19 +115,18 @@ const AddBlog = () => {
             type="text"
             placeholder="react, mongodb, node"
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
-            id="tags"
-            {...register("tags", { required: "At least one tag is required." })}
+            {...register("tags")}
           />
         </div>
 
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded font-medium"
+          disabled={isSubmitting}
+          className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white py-2 rounded font-medium"
         >
-          Publish Blog
+          {isSubmitting ? "Publishing..." : "Publish Blog"}
         </button>
-
       </form>
     </div>
   );

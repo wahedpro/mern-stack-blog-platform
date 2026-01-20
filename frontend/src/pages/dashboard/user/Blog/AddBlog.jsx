@@ -1,32 +1,33 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import apiRequestHandler from "../../../../services/ApiRequestHandler";
+import toast from "react-hot-toast";
 
 const AddBlog = () => {
-  const {register, handleSubmit} = useForm();
-  const token = localStorage.getItem("token");
+  const { register, handleSubmit, reset } = useForm();
 
   const addBlogMutation = useMutation({
-      mutationFn: async (userData) => {
-        return await apiRequestHandler("posts", "POST", userData, token);
-      },
-      onSuccess: (data) => {
-        console.log("Post Add successful:", data);
-      }
-    });
-  
-    const onSubmit = data => {
-      const blogData = {
-        title: data.title,
-        slug: data.slug,
-        content: data.content,
-        thumbnail: data.thumbnail,
-        tags: data.tags?.split(",").map(tag => tag.trim()),
-      };
-      console.log(blogData);
-      addBlogMutation.mutate(blogData);
+    mutationFn: async (userData) => {
+      const token = localStorage.getItem("token");
+      return await apiRequestHandler("posts", "POST", userData, token);
+    },
+    onSuccess: (data) => {
+      toast.success("Post Add Successfully");
+      reset();
+    },
+  });
+
+  const onSubmit = (data) => {
+    const blogData = {
+      title: data.title,
+      slug: data.slug,
+      content: data.content,
+      thumbnail: data.thumbnail,
+      tags: data.tags?.split(",").map((tag) => tag.trim()),
     };
-  
+    console.log(blogData);
+    addBlogMutation.mutate(blogData);
+  };
 
   return (
     <div className="flex justify-center mt-10">

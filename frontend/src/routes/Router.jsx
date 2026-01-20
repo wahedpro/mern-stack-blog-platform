@@ -6,7 +6,7 @@ import UserHome from "../pages/dashboard/user/UserHome";
 import { Route, Routes } from "react-router-dom";
 import Profile from "../pages/dashboard/user/Profile";
 import AddBlog from "../pages/dashboard/user/Blog/AddBlog";
-import MyBlog from "../pages/dashboard/user/MyBlog";
+import MyBlog from "../pages/dashboard/user/Blog/MyBlog";
 
 const router = () => {
   return(

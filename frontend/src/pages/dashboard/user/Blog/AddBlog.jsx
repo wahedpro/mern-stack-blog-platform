@@ -1,45 +1,32 @@
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import apiRequestHandler from "../../../../services/ApiRequestHandler";
 
 const AddBlog = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  const {register, handleSubmit} = useForm();
+  const token = localStorage.getItem("token");
 
-  const onSubmit = async (data) => {
-    // convert comma-separated tags to array
-    const payload = {
-      ...data,
-      tags: data.tags
-        ? data.tags.split(",").map((tag) => tag.trim())
-        : [],
-    };
-
-    try {
-      const res = await fetch("http://localhost:4000/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to create blog");
+  const addBlogMutation = useMutation({
+      mutationFn: async (userData) => {
+        return await apiRequestHandler("posts", "POST", userData, token);
+      },
+      onSuccess: (data) => {
+        console.log("Post Add successful:", data);
       }
-
-      const result = await res.json();
-      console.log("Blog created:", result);
-
-      reset(); // clear form
-      alert("Blog published successfully 🎉");
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong ❌");
-    }
-  };
+    });
+  
+    const onSubmit = data => {
+      const blogData = {
+        title: data.title,
+        slug: data.slug,
+        content: data.content,
+        thumbnail: data.thumbnail,
+        tags: data.tags?.split(",").map(tag => tag.trim()),
+      };
+      console.log(blogData);
+      addBlogMutation.mutate(blogData);
+    };
+  
 
   return (
     <div className="flex justify-center mt-10">
@@ -56,9 +43,6 @@ const AddBlog = () => {
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
             {...register("title", { required: "Title is required" })}
           />
-          {errors.title && (
-            <p className="text-red-500 text-sm">{errors.title.message}</p>
-          )}
         </div>
 
         {/* Slug */}
@@ -73,9 +57,6 @@ const AddBlog = () => {
           <p className="text-xs text-gray-400 mt-1">
             Must be unique, lowercase, hyphen-separated
           </p>
-          {errors.slug && (
-            <p className="text-red-500 text-sm">{errors.slug.message}</p>
-          )}
         </div>
 
         {/* Thumbnail */}
@@ -87,11 +68,6 @@ const AddBlog = () => {
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
             {...register("thumbnail", { required: "Thumbnail is required" })}
           />
-          {errors.thumbnail && (
-            <p className="text-red-500 text-sm">
-              {errors.thumbnail.message}
-            </p>
-          )}
         </div>
 
         {/* Content */}
@@ -103,9 +79,6 @@ const AddBlog = () => {
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none resize-none"
             {...register("content", { required: "Content is required" })}
           ></textarea>
-          {errors.content && (
-            <p className="text-red-500 text-sm">{errors.content.message}</p>
-          )}
         </div>
 
         {/* Tags */}
@@ -122,10 +95,9 @@ const AddBlog = () => {
         {/* Submit */}
         <button
           type="submit"
-          disabled={isSubmitting}
           className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white py-2 rounded font-medium"
         >
-          {isSubmitting ? "Publishing..." : "Publish Blog"}
+          Submit
         </button>
       </form>
     </div>

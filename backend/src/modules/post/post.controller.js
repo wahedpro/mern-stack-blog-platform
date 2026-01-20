@@ -6,8 +6,6 @@ const createPostController = async (req, res) => {
     const userId = req.user.id;
     const post = await postService.createPost(req.body, userId);
 
-    console.log('Created Post:', post);
-
     res.status(201).json({
       success: true,
       message: "Post created successfully",
@@ -48,14 +46,13 @@ const getSinglePublicPostByIdController = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Post fetched successfully',
-      data: post
+      message: "Post fetched successfully",
+      data: post,
     });
-
   } catch (error) {
     res.status(404).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -69,14 +66,13 @@ const getMyPostsController = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Your posts fetched successfully',
-      data: posts
+      message: "Your posts fetched successfully",
+      data: posts,
     });
-
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -87,22 +83,17 @@ const updatePostController = async (req, res) => {
     const postId = req.params.id;
     const userId = req.user.id;
 
-    const updatedPost = await postService.updatePost(
-      postId,
-      userId,
-      req.body
-    );
+    const updatedPost = await postService.updatePost(postId, userId, req.body);
 
     res.status(200).json({
       success: true,
-      message: 'Post updated successfully',
-      data: updatedPost
+      message: "Post updated successfully",
+      data: updatedPost,
     });
-
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -116,13 +107,12 @@ const deletePostController = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Post deleted successfully'
+      message: "Post deleted successfully",
     });
-
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -136,18 +126,16 @@ const publishPostController = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Post published successfully',
-      data: post
+      message: "Post published successfully",
+      data: post,
     });
-
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
-
 
 module.exports = {
   createPostController,
@@ -156,5 +144,5 @@ module.exports = {
   publishPostController,
   getAllPublicPostsController,
   getSinglePublicPostByIdController,
-  getMyPostsController
+  getMyPostsController,
 };

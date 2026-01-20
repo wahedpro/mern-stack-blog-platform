@@ -1,23 +1,31 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const authMiddleware = require('../../middlewares/authMiddleware');
-const { createPostController, getAllPublicPostsController, getSinglePublicPostByIdController, getMyPostsController, updatePostController, deletePostController, publishPostController } = require('../post/post.controller');
+const authMiddleware = require("../../middlewares/authMiddleware");
+const {
+  createPostController,
+  getAllPublicPostsController,
+  getSinglePublicPostByIdController,
+  getMyPostsController,
+  updatePostController,
+  deletePostController,
+  publishPostController,
+} = require("../post/post.controller");
 
 // publish post
-router.get('/', getAllPublicPostsController);
-router.get('/id/:id', getSinglePublicPostByIdController);
+router.get("/my-posts", authMiddleware("user", "admin"), getMyPostsController);
+router.get("/", getAllPublicPostsController);
+router.get("/id/:id", getSinglePublicPostByIdController);
 
 // logged-in user
 // create post
-router.post('/', authMiddleware, createPostController);
-// get posts 
-router.get('/my-posts', authMiddleware, getMyPostsController);
+router.post("/", authMiddleware("user", "admin"), createPostController);
+// get posts
 // update post
-router.patch('/:id', authMiddleware, updatePostController);
+router.patch("/:id", authMiddleware("user", "admin"), updatePostController);
 // delete post
-router.delete('/:id', authMiddleware, deletePostController);
+router.delete("/:id", authMiddleware("user", "admin"), deletePostController);
 // admin only
-router.patch( '/:id/publish',authMiddleware('admin'), publishPostController);
+router.patch("/:id/publish", authMiddleware("admin"), publishPostController);
 
 module.exports = router;

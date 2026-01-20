@@ -9,8 +9,9 @@ const createPost = async (data, userId) => {
   } else {
     data.publishedAt = null;
   }
-
+console.log(data)
   const post = await Post.create(data);
+  console.log("Post created in service:", post);
   return post;
 };
 
@@ -25,28 +26,28 @@ const getAllPublicPosts = async () => {
 
 // get single published post by id
 const getSinglePublicPost = async (id) => {
-  const post = await Post.findOne({_id: id});
+  const post = await Post.findOne({ _id: id });
   return post;
 };
 
 // get posts by logged-in user
 const getPostsByLoggedInUser = async (userId) => {
   const posts = await Post.find({
-    userId: userId
+    userId: userId,
   });
   return posts;
 };
 
-// update post 
+// update post
 const updatePost = async (postId, userId, updateData) => {
   const post = await Post.findById(postId);
 
   if (!post) {
-    throw new Error('Post not found');
+    throw new Error("Post not found");
   }
 
   if (post.userId.toString() !== userId.toString()) {
-    throw new Error('You are not allowed to update this post');
+    throw new Error("You are not allowed to update this post");
   }
   delete updateData.status;
   delete updateData.publishedAt;
@@ -62,11 +63,11 @@ const deletePost = async (postId, userId) => {
   const post = await Post.findById(postId);
 
   if (!post) {
-    throw new Error('Post not found');
+    throw new Error("Post not found");
   }
 
   if (post.userId.toString() !== userId.toString()) {
-    throw new Error('You are not allowed to delete this post');
+    throw new Error("You are not allowed to delete this post");
   }
 
   await post.deleteOne();
@@ -78,21 +79,20 @@ const publishPostByAdmin = async (postId) => {
   const post = await Post.findById(postId);
 
   if (!post) {
-    throw new Error('Post not found');
+    throw new Error("Post not found");
   }
 
-  if (post.status === 'PUBLISHED') {
-    throw new Error('Post already published');
+  if (post.status === "PUBLISHED") {
+    throw new Error("Post already published");
   }
 
-  post.status = 'PUBLISHED';
+  post.status = "PUBLISHED";
   post.publishedAt = new Date();
 
   await post.save();
 
   return post;
 };
-
 
 module.exports = {
   createPost,
@@ -101,5 +101,5 @@ module.exports = {
   publishPostByAdmin,
   getAllPublicPosts,
   getSinglePublicPost,
-  getPostsByLoggedInUser
+  getPostsByLoggedInUser,
 };

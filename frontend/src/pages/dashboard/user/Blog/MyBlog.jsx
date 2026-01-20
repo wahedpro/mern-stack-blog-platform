@@ -17,6 +17,8 @@ const MyBlog = () => {
     getPost();
   }, []);
 
+  console.log(posts[0])
+
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     await apiRequestHandler(`posts/${id}`, "DELETE", null, token);
@@ -24,7 +26,7 @@ const MyBlog = () => {
   };
 
   const handleEdit = (post) => {
-    setSelectedPost(post); // modal open
+    setSelectedPost(post);
   };
 
   const handleUpdate = async (updatedData) => {
@@ -43,12 +45,13 @@ const MyBlog = () => {
       setSelectedPost(null);
     }
   };
+  
 
   return (
     <>
       <div className="grid gap-6 px-6 pt-6 sm:grid-cols-2 lg:grid-cols-4">
         {posts.map((post) => (
-          <div key={post._id} className="bg-white border rounded-xl shadow-sm">
+          <div key={post._id} className="bg-white rounded-xl shadow-sm">
             <img
               src={post.thumbnail}
               className="h-44 w-full object-cover rounded-t-xl"
@@ -56,6 +59,7 @@ const MyBlog = () => {
 
             <div className="p-4">
               <h3 className="text-sm font-semibold">{post.title}</h3>
+              <p className="text-red-400">{post.status}</p>
 
               <div className="flex justify-between mt-4">
                 <button

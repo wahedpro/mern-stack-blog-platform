@@ -11,12 +11,15 @@ const Login = () => {
   const navigate = useNavigate();
   const loginMutation = useMutation({
     mutationFn: async (data) => {
-      return await apiRequestHandler("users/login", "POST", data);
+      return await apiRequestHandler("auth/login", "POST", data);
     },
     onSuccess: (response) => {
       const { user, token } = response.data;
       login(user, token);
-      navigate("/");
+      if(user.role === "user"){
+        navigate("/");
+      }
+      
     },
     onError: (error) => {
       console.error(error);

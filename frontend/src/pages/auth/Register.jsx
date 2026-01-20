@@ -8,7 +8,7 @@ const Register = () => {
   
   const registerMutation = useMutation({
     mutationFn: async (userData) => {
-      const response = await apiRequestHandler("users/register", "POST", userData);
+      const response = await apiRequestHandler("auth/register", "POST", userData);
       return response;
     },
     onSuccess: (data) => {

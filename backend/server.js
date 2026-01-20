@@ -1,7 +1,8 @@
 const express = require('express')
 const cors = require("cors");
-const userRoutes = require('./src/modules/auth/auth.routes')
+const authRoutes = require('./src/modules/auth/auth.routes')
 const postRoutes = require('./src/modules/post/post.route');
+const userRoutes = require('./src/modules/user/user.routes');
 const app = express()
 const port = 4000
 
@@ -13,8 +14,11 @@ app.use(cors());
 
 connectDB();
 
+// auth routes
+app.use('/api/auth', authRoutes);
+
 // user routes
-app.use('/api/users', userRoutes)
+app.use('/api/users', userRoutes);
 
 // post routes
 app.use('/api/posts', postRoutes);

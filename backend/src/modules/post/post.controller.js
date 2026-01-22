@@ -137,6 +137,24 @@ const publishPostController = async (req, res) => {
   }
 };
 
+// get all the post
+const getAllPostsByAdminController = async (req, res) =>{
+  try{
+    const posts = await postService.getAllPostsByAdmin();
+
+    res.status(200).json({
+      success: true,
+      message: "All Post successfully",
+      data: posts,
+    })
+  }catch (error){
+     res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
 module.exports = {
   createPostController,
   updatePostController,
@@ -145,4 +163,5 @@ module.exports = {
   getAllPublicPostsController,
   getSinglePublicPostByIdController,
   getMyPostsController,
+  getAllPostsByAdminController,
 };

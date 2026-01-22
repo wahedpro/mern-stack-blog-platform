@@ -9,9 +9,7 @@ const createPost = async (data, userId) => {
   } else {
     data.publishedAt = null;
   }
-console.log(data)
   const post = await Post.create(data);
-  console.log("Post created in service:", post);
   return post;
 };
 
@@ -88,11 +86,15 @@ const publishPostByAdmin = async (postId) => {
 
   post.status = "PUBLISHED";
   post.publishedAt = new Date();
-
   await post.save();
-
   return post;
 };
+
+// get all the posts by admin
+const getAllPostsByAdmin = async ()=>{
+  const posts = await Post.find();
+  return posts;
+}
 
 module.exports = {
   createPost,
@@ -102,4 +104,5 @@ module.exports = {
   getAllPublicPosts,
   getSinglePublicPost,
   getPostsByLoggedInUser,
+  getAllPostsByAdmin,
 };

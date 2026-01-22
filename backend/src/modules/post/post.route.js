@@ -10,6 +10,7 @@ const {
   updatePostController,
   deletePostController,
   publishPostController,
+  getAllPostsByAdminController,
 } = require("../post/post.controller");
 
 // publish post
@@ -25,7 +26,11 @@ router.post("/", authMiddleware("user", "admin"), createPostController);
 router.patch("/:id", authMiddleware("user", "admin"), updatePostController);
 // delete post
 router.delete("/:id", authMiddleware("user", "admin"), deletePostController);
+
 // admin only
 router.patch("/:id/publish", authMiddleware("admin"), publishPostController);
+
+// all posts only admin
+router.get('/admin/all-posts', authMiddleware('admin'), getAllPostsByAdminController);
 
 module.exports = router;

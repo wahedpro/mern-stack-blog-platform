@@ -14,14 +14,16 @@ const {
 } = require("../post/post.controller");
 
 // publish post
-router.get("/my-posts", authMiddleware("user", "admin"), getMyPostsController);
 router.get("/", getAllPublicPostsController);
 router.get("/id/:id", getSinglePublicPostByIdController);
 
 // logged-in user
+
 // create post
 router.post("/", authMiddleware("user", "admin"), createPostController);
+
 // get posts
+router.get("/my-posts", authMiddleware("user", "admin"), getMyPostsController);
 // update post
 router.patch("/:id", authMiddleware("user", "admin"), updatePostController);
 // delete post

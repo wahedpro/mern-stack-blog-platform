@@ -17,9 +17,10 @@ const Login = () => {
       const { user, token } = response.data;
       login(user, token);
       if(user.role === "user"){
-        navigate("/");
+        navigate("/userDashboard");
+      }else{
+        navigate("/adminDashboard");
       }
-      
     },
     onError: (error) => {
       console.error(error);

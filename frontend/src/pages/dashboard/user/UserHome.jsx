@@ -10,9 +10,9 @@ const UserHome = () => {
   const navigate = useNavigate();
 
   const sidebarLinks = [
-    { name: "Dashboard", path: "/", icon: <MdOutlineDashboard size={22} /> },
-    { name: "Add Blog", path: "/addBlog", icon: <CgAddR size={22} /> },
-    { name: "Profile", path: "/profile", icon: <LuSquareUser size={22} /> },
+    { name: "Dashboard", path: "/userDashboard", icon: <MdOutlineDashboard size={22} /> },
+    { name: "Add Blog", path: "/userDashboard/addBlog", icon: <CgAddR size={22} /> },
+    { name: "Profile", path: "/userDashboard/profile", icon: <LuSquareUser size={22} /> },
   ];
 
   const handleLogout = () => {

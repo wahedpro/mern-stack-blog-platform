@@ -17,8 +17,6 @@ const MyBlog = () => {
     getPost();
   }, []);
 
-  console.log(posts[0])
-
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     await apiRequestHandler(`posts/${id}`, "DELETE", null, token);

@@ -10,6 +10,7 @@ import AdminDashboard from "../pages/dashboard/admin/adminDashboard";
 import AllBlog from "../pages/dashboard/admin/AllBlog";
 import AllUser from "../pages/dashboard/admin/AllUser";
 import PrivateRoute from "./PrivateRoutes";
+import Invitelogger from "../pages/dashboard/admin/Invitelogger";
 
 const Router = () => {
   return (
@@ -29,6 +30,7 @@ const Router = () => {
           <Route path="allBlog" element={<AllBlog/>} />
           <Route path="allUser" element={<AllUser />} />
           <Route path="adminProfile" element={<AddBlog />} />
+          <Route path="invite" element={<Invitelogger/>} />
       </Route>
     </Routes>
   );

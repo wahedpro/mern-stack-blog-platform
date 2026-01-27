@@ -9,6 +9,7 @@ import MyBlog from "../pages/dashboard/user/Blog/MyBlog";
 import AdminDashboard from "../pages/dashboard/admin/adminDashboard";
 import AllBlog from "../pages/dashboard/admin/AllBlog";
 import AllUser from "../pages/dashboard/admin/AllUser";
+import PrivateRoute from "./PrivateRoutes";
 
 const Router = () => {
   return (
@@ -18,13 +19,13 @@ const Router = () => {
         <Route path="register" element={<Register />} />
       </Route>
 
-      <Route path="/userDashboard" element={<UserHome />}>
+      <Route path="/userDashboard" element={<PrivateRoute><UserHome /></PrivateRoute>}>
         <Route index element={<MyBlog />} />
         <Route path="profile" element={<Profile />} />
         <Route path="addBlog" element={<AddBlog />} />
       </Route>
 
-      <Route path="/adminDashboard" element={<AdminDashboard/>}>
+      <Route path="/adminDashboard" element={<PrivateRoute><AdminDashboard/></PrivateRoute>}>
           <Route path="allBlog" element={<AllBlog/>} />
           <Route path="allUser" element={<AllUser />} />
           <Route path="adminProfile" element={<AddBlog />} />

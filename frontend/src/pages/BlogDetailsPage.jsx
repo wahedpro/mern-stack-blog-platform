@@ -24,22 +24,22 @@ const BlogDetailsPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
-      <img
-        src={post.thumbnail}
-        alt={post.title}
-        className="rounded-xl mb-6"
-      />
+      <img src={post.thumbnail} alt={post.title} className="rounded-xl mb-6" />
 
-      <h1 className="text-4xl font-bold mb-3">
-        {post.title}
-      </h1>
+      <h1 className="text-4xl font-bold mb-3">{post.title}</h1>
 
-      <p className="text-sm text-indigo-600 mb-6">
-        {post.category}
-      </p>
+      <p className="text-sm text-indigo-600 mb-6">{post.category}</p>
 
-      <div className="prose max-w-none">
-        {post.content}
+      <div className="prose max-w-none">{post.content}</div>
+      <div className="flex flex-wrap gap-2 mt-4">
+        {post.tags?.map((tag, index) => (
+          <span
+            key={index}
+            className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full"
+          >
+            #{tag}
+          </span>
+        ))}
       </div>
     </div>
   );

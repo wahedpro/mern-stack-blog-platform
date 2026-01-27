@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiRequestHandler from "../services/ApiRequestHandler";
+import { Link } from "react-router-dom";
 
 const BlogPages = () => {
   const [posts, setPosts] = useState([]);
@@ -36,6 +37,12 @@ const BlogPages = () => {
             <p className="text-xs text-indigo-600 font-medium mt-1">
               {post.category || "General"}
             </p>
+            <Link
+              to={`/posts/${post._id}`}
+              className="text-sm text-blue-600 font-medium mt-2 inline-block"
+            >
+              Read More
+            </Link>
           </div>
         ))}
       </div>

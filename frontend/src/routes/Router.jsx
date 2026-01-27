@@ -11,11 +11,17 @@ import AllBlog from "../pages/dashboard/admin/AllBlog";
 import AllUser from "../pages/dashboard/admin/AllUser";
 import PrivateRoute from "./PrivateRoutes";
 import Invitelogger from "../pages/dashboard/admin/Invitelogger";
+import HomePage from "../pages/HomePage";
+import BlogPages from "../pages/BlogPages";
+import BlogDetailsPage from "../pages/BlogDetailsPage";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/blog" element={<BlogPages />} />
+        <Route path="/posts/:id" element={<BlogDetailsPage/>} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>

@@ -56,7 +56,7 @@ const Invitelogger = () => {
         <button
           onClick={handleInvite}
           disabled={loading}
-          className="bg-[#615fff] px-6 py-3.5 mr-px rounded-sm active:scale-95 transition text-white"
+          className="bg-[#615fff] px-6 py-3 mr-px rounded-sm active:scale-95 transition text-white"
         >
           {loading ? "Sending..." : "Invite"}
         </button>

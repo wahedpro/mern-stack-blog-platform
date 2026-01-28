@@ -75,9 +75,9 @@ const MyBlog = () => {
               />
 
               <div className="p-4">
-                <h3 className="text-sm font-semibold">{post.title}</h3>
+                <h3 className="font-semibold text-xl mb-1">{post.title}</h3>
 
-                <p className="text-red-400">{post.status}</p>
+                {post.status === "DRAFT" ? <p className="text-red-400">Under Review</p>: <p className="text-green-400">{post.status}</p>}
 
                 <div className="flex justify-between mt-4">
                   <button

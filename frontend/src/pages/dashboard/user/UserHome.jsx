@@ -10,9 +10,21 @@ const UserHome = () => {
   const navigate = useNavigate();
 
   const sidebarLinks = [
-    { name: "Dashboard", path: "/userDashboard", icon: <MdOutlineDashboard size={22} /> },
-    { name: "Add Blog", path: "/userDashboard/addBlog", icon: <CgAddR size={22} /> },
-    { name: "Profile", path: "/userDashboard/profile", icon: <LuSquareUser size={22} /> },
+    {
+      name: "Dashboard",
+      path: "/userDashboard",
+      icon: <MdOutlineDashboard size={22} />,
+    },
+    {
+      name: "Add Blog",
+      path: "/userDashboard/addBlog",
+      icon: <CgAddR size={22} />,
+    },
+    {
+      name: "Profile",
+      path: "/userDashboard/profile",
+      icon: <LuSquareUser size={22} />,
+    },
   ];
 
   const handleLogout = () => {
@@ -46,13 +58,14 @@ const UserHome = () => {
             <NavLink
               key={index}
               to={item.path}
+              end={item.path === "/userDashboard"}
               className={({ isActive }) =>
                 `flex items-center py-3 px-4 gap-3 transition
-                ${
-                  isActive
-                    ? "border-r-4 md:border-r-[6px] bg-indigo-500/10 border-indigo-500 text-indigo-600"
-                    : "hover:bg-gray-100 text-gray-700"
-                }`
+      ${
+        isActive
+          ? "border-r-4 md:border-r-[6px] bg-indigo-500/10 border-indigo-500 text-indigo-600"
+          : "hover:bg-gray-100 text-gray-700"
+      }`
               }
             >
               {item.icon}

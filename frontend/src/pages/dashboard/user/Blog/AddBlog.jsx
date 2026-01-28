@@ -33,7 +33,7 @@ const AddBlog = () => {
     <div className="flex justify-center mt-10">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white text-gray-600 w-full max-w-lg p-6 rounded-lg border border-gray-300 space-y-4"
+        className="bg-white text-gray-600 w-full max-w-lg p-6 rounded-lg border border-gray-200 space-y-4"
       >
         {/* Title */}
         <div>
@@ -55,9 +55,6 @@ const AddBlog = () => {
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
             {...register("slug", { required: "Slug is required" })}
           />
-          <p className="text-xs text-gray-400 mt-1">
-            Must be unique, lowercase, hyphen-separated
-          </p>
         </div>
 
         {/* Thumbnail */}
@@ -65,7 +62,7 @@ const AddBlog = () => {
           <label className="font-medium">Thumbnail URL</label>
           <input
             type="text"
-            placeholder="https://image-url.com/thumb.jpg"
+            placeholder="enter image url"
             className="w-full border mt-1 border-gray-300 rounded px-3 py-2 outline-none"
             {...register("thumbnail", { required: "Thumbnail is required" })}
           />

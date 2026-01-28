@@ -1,10 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apiRequestHandler from "../../services/ApiRequestHandler";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const {register, handleSubmit} = useForm();
+  const navigate = useNavigate();
   
   const registerMutation = useMutation({
     mutationFn: async (userData) => {
@@ -12,7 +14,7 @@ const Register = () => {
       return response;
     },
     onSuccess: (data) => {
-      console.log("Registration successful:", data);
+      navigate("/login");
     }
   });
 
@@ -71,7 +73,7 @@ const Register = () => {
           type="submit"
           className="mt-8 py-3 w-full cursor-pointer rounded-md bg-indigo-600 text-white transition hover:bg-indigo-700"
         >
-          Login
+          Register
         </button>
         <p className="text-center py-8">
           Don't have an account?{" "}

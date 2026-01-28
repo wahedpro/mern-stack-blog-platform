@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
-import { LuSquareUser } from "react-icons/lu";
 import { CgAddR } from "react-icons/cg";
 import { FaRegListAlt } from "react-icons/fa";
 import { IoPersonAdd } from "react-icons/io5";
@@ -17,7 +16,7 @@ const AdminDashboard = () => {
     { name: "All Blog", path: "/adminDashboard/allBlog", icon: <CgAddR size={22}/> },
     { name: "All User", path: "/adminDashboard/allUser", icon: <FaRegListAlt size={22}/>},
     { name: "Invite", path: "/adminDashboard/invite", icon: <IoPersonAdd size={22}/> },
-    { name: "Profile", path: "/adminDashboard/profile", icon: <LuSquareUser size={22}/> },
+    // { name: "Profile", path: "/adminDashboard/profile", icon: <LuSquareUser size={22}/> },
   ];
 
   const handleLogout = () => {
@@ -51,6 +50,7 @@ const AdminDashboard = () => {
             <NavLink
               key={index}
               to={item.path}
+              end={item.path === "/adminDashboard"}
               className={({ isActive }) =>
                 `flex items-center py-3 px-4 gap-3 transition
                 ${

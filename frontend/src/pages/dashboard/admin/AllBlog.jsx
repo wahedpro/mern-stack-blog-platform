@@ -22,13 +22,12 @@ const AllBlog = () => {
   const publishPost = async (postId) => {
     try {
       const token = localStorage.getItem("token");
-      const result = await apiRequestHandler(
-        `posts/${postId}/publish`,
-        "PATCH",
-        null,
-        token,
+      await apiRequestHandler(`posts/${postId}/publish`, "PATCH", null, token);
+      setAllPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId ? { ...post, status: "PUBLISHED" } : post,
+        ),
       );
-      console.log("Post published:", result);
     } catch (error) {
       console.error("Failed to publish post", error);
     }
